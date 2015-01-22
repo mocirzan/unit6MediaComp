@@ -121,9 +121,9 @@ public class Picture extends SimplePicture
         Pixel leftPixel = null;
         Pixel rightPixel = null;
         int width = pixels[0].length;
-        for (int row = 0; row < pixels.length; row+=2)
+        for (int row = 0; row < pixels.length; row++)
         {
-            for (int col = 0; col < width / 2; col+=2)
+            for (int col = 0; col < width / 2; col++)
             {
                 leftPixel = pixels[row][col];
                 rightPixel = pixels[row][width - 1 - col];
@@ -195,8 +195,7 @@ public class Picture extends SimplePicture
     {
 
         Pixel[][] pixels = this.getPixels2D();
-        Pixel leftPixel = null;
-        Pixel rightPixel = null;
+        
         int width = pixels[0].length;
         Picture newPicture = new Picture(pixels.length/2,width/2);
         Pixel[][] halfPixels = newPicture.getPixels2D();
@@ -210,13 +209,16 @@ public class Picture extends SimplePicture
             for (int col = 0; col < width; col+=2)
             { 
                 color = pixels[row][col].getColor();
-                halfPixels[r][c].setColor(color);
                 
-                c ++;
+                
 
+                halfPixels[r][c].setColor(color);
+                c ++;
             }
             c = 0;
             r ++;
+            
+            
         }
         return newPicture;
     }
@@ -313,9 +315,9 @@ public class Picture extends SimplePicture
                 rightColor = rightPixel.getColor();
                 if (leftPixel.colorDistance(rightColor) > 
                 edgeDist)
-                    leftPixel.setColor(Color.BLACK);
+                    leftPixel.setColor(Color.blue);
                 else
-                    leftPixel.setColor(Color.WHITE);
+                    leftPixel.setColor(Color.white);
             }
         }
     }
@@ -327,12 +329,32 @@ public class Picture extends SimplePicture
     {
         Picture car = new Picture("ferrari.jpg");
         Picture beach = new Picture("beach.jpg");
+        Picture jonah = new Picture("jonah.jpg");
+        Picture jonah2 = new Picture("jonah.jpg");
+        Picture jonah3 = new Picture("jonah.jpg");
         Picture beach2 = beach.scaleHalf();
+        
         Picture canvas = new Picture(2000,2000);
-        //beach.mirrorHorizontal();
-        //beach.mirrorVertical();
+        
+        beach.mirrorHorizontal();
+        beach.mirrorVertical();
+        beach.warmFilter();
+        
+        car.warmFilter();
+        
+        jonah.mirrorVertical();
+        
+        jonah2.edgeDetection(10);
+        
+        jonah3.filter1();
+        
         canvas.copy(car, 0, 0);
+        canvas.copy(beach, 550, 1);
+        canvas.copy(jonah, 553, 645);
+        canvas.copy(jonah2, 553, 978);
+        canvas.copy(jonah3, 133, 975);
         canvas.explore();
+        canvas.write("MyCollage.jpg");
         
     } // this } is the end of class Picture, put all new methods before this
 }
